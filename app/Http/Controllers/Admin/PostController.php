@@ -4,6 +4,9 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use App\Models\Post as Post;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Str;
 
 class PostController extends Controller
 {
@@ -14,7 +17,8 @@ class PostController extends Controller
      */
     public function index()
     {
-        //
+        $posts = Post::all();
+        return view('admin.post.index', compact('posts'));
     }
 
     /**
@@ -24,7 +28,7 @@ class PostController extends Controller
      */
     public function create()
     {
-        //
+        return view('admin.post.create');
     }
 
     /**
@@ -35,7 +39,20 @@ class PostController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $data = $request->validate([
+            'title' => 'required',
+            'post_date' => 'required',
+            'content' => 'required',
+        ], [
+            'pippo' => 'sigismondo',
+        ]);
+        $data['author'] = Auth::user()->name;
+        $data['slug'] = Str::slug($data['title']);
+        $newPost = new Post();
+        $newPost->fill($data);
+        $newPost->save();
+
+        return redirect()->route('admin.post.index')->with('message', "Post  $newPost->title() has been created succesfully");
     }
 
     /**
@@ -44,9 +61,9 @@ class PostController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Post $post)
     {
-        //
+        return view('admin.post.show', compact('post'));
     }
 
     /**
