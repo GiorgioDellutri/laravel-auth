@@ -24,7 +24,7 @@ class PostSeeder extends Seeder
             $newPost->title = $faker->unique()->realTextBetween(5, 20);
             $newPost->author = $faker->name();
             $newPost->content = $faker->realTextBetween(600, 800);
-            $newPost->post_date = $faker->dateTimeThisYear();
+            $newPost->post_date = $faker->date();
             $newPost->save();
         }
     }
