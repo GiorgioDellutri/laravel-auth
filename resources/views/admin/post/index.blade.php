@@ -26,7 +26,7 @@
                         <td>{{ $post->post_date }}</td>
                         <td>
                             <a href="{{ route('admin.post.show', $post->id) }}" class="btn btn-sm btn-success ">Show</a>
-                            <a href="" class="btn btn-sm btn-dark mx-2">Edit</a>
+                            <a href="{{ route('admin.post.edit', $post->id) }}" class="btn btn-sm btn-dark mx-2">Edit</a>
                             <form class="d-inline" action="" method="POST">
                                 @csrf
                                 @method('DELETE')
