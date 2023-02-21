@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Models\Post as Post;
+use App\Models\Post;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
 use Illuminate\Validation\Rule;
@@ -12,7 +12,7 @@ use Illuminate\Validation\Rule;
 class PostController extends Controller
 {
     protected $validationRules = [
-        'title' => ['required', 'unique:post'],
+        'title' => ['required', 'unique:posts'],
         'post_date' => 'required',
         'content' => 'required',
     ];
@@ -89,21 +89,24 @@ class PostController extends Controller
     {
 
         $data = $request->validate([
-            'title' => ['required', Rule::unique('post')->ignore($post->id)],
-            'post_date' => 'required',
+            'title' => ['required', Rule::unique('posts')->ignore($post->id)],
+            'post_date' => 'required|after:yesterday',
             'content' => 'required',
         ]);
-        dd($data);
+        $post->update($data);
+        return redirect()->route('admin.post.show', compact('post'));
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param  Post $post
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Post $post)
     {
-        //
+        // dd($post);
+        $post->delete();
+        return redirect()->route('admin.post.index')->with('message', "The post \"$post->title\" has been rremoved")->with('message_class', "danger");
     }
 }
