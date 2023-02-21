@@ -7,9 +7,16 @@ use Illuminate\Http\Request;
 use App\Models\Post as Post;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
+use Illuminate\Validation\Rule;
 
 class PostController extends Controller
 {
+    protected $validationRules = [
+        'title' => ['required', 'unique:post'],
+        'post_date' => 'required',
+        'content' => 'required',
+    ];
+
     /**
      * Display a listing of the resource.
      *
@@ -28,7 +35,7 @@ class PostController extends Controller
      */
     public function create()
     {
-        return view('admin.post.create');
+        return view('admin.post.create', ["post" => new Post()]);
     }
 
     /**
@@ -39,13 +46,7 @@ class PostController extends Controller
      */
     public function store(Request $request)
     {
-        $data = $request->validate([
-            'title' => 'required',
-            'post_date' => 'required',
-            'content' => 'required',
-        ], [
-            'pippo' => 'sigismondo',
-        ]);
+        $data = $request->validate($this->validationRules);
         $data['author'] = Auth::user()->name;
         $data['slug'] = Str::slug($data['title']);
         $newPost = new Post();
@@ -69,24 +70,30 @@ class PostController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
+     * @param  Post  $post
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Post $post)
     {
-        //
+        return view('admin.post.edit', compact('post'));
     }
 
     /**
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param  Post  $post
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, Post $post)
     {
-        //
+
+        $data = $request->validate([
+            'title' => ['required', Rule::unique('post')->ignore($post->id)],
+            'post_date' => 'required',
+            'content' => 'required',
+        ]);
+        dd($data);
     }
 
     /**
