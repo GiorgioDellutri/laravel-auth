@@ -1,10 +1,25 @@
+@if ($errors->any())
+    <div class="alert alert-danger mt-5 p-3">
+        <ul>
+            @foreach ($errors->all() as $error)
+                <li>
+                    {{ $error }}
+                </li>
+            @endforeach
+        </ul>
+    </div>
+@endif
+
+
 <form action="{{ route($routeName, $post) }}" method="POST">
     @csrf
-    @method('POST')
+    @method($methods)
 
     <h2 class="mb-3 fw-bold">
-        {{ Auth::user()->name }}
+        Author: {{ Auth::user()->name }}
     </h2>
+
+
 
     <form>
         <div class="mb-3">
