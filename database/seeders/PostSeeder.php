@@ -17,7 +17,7 @@ class PostSeeder extends Seeder
      */
     public function run(Faker $faker)
     {
-        for ($i = 0; $i < 60; $i++) {
+        for ($i = 0; $i < 100; $i++) {
             $newPost = new Post();
             $newPost->slug = Str::slug($newPost->title);
             "Ciao a tutti ";
