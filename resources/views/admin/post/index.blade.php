@@ -20,7 +20,7 @@
                 <th scope="col">Title</th>
                 <th scope="col">Author</th>
                 <th scope="col">Post date</th>
-                <th scope="col">Utilities</th>
+                <th class="text-center" scope="col">Utilities</th>
             </tr>
             </thead>
             @foreach ($posts as $post)
@@ -30,7 +30,7 @@
                         <td>{{ $post->title }}</td>
                         <td>{{ $post->author }}</td>
                         <td>{{ $post->post_date }}</td>
-                        <td>
+                        <td class="text-center">
                             <a href="{{ route('admin.post.show', $post->id) }}" class="btn btn-sm btn-success ">Show</a>
                             <a href="{{ route('admin.post.edit', $post->id) }}" class="btn btn-sm btn-dark mx-2">Edit</a>
 
