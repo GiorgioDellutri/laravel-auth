@@ -26,7 +26,6 @@
         <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm">
             <div class="container">
                 <a class="navbar-brand d-flex align-items-center" href="{{ url('/') }}">
-
                     {{ config('app.name', 'Laravel') }}
                 </a>
 
@@ -43,7 +42,7 @@
                             <a class="nav-link" href="{{ url('/') }}">{{ __('Home') }}</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="{{ route('admin.post.index') }}">{{ __('Post') }}</a>
+                            <a class="nav-link" href="{{ route('admin.post.index') }}">{{ __('Projects') }}</a>
                         </li>
                     </ul>
 
