@@ -8,6 +8,15 @@
             </div>
             <div class="card-body">
                 <h5 class="card-title">{{ $post->title }}</h5>
+
+                <div class="card-image text-center">
+                    @if (str_starts_with($post->image, 'http'))
+                        <img src="{{ $post->image }}" class="img-fluid" alt="{{ $post->title }}">
+                    @else
+                        <img src="{{ asset('storage/' . $post->image) }}" alt="{{ $post->title }}" class="img-fluid">
+                    @endif
+                </div>
+
                 <p class="card-text">{{ $post->content }}</p>
                 <div class="button">
                     <a href="{{ route('admin.post.edit', $post->id) }}" class="btn btn-sm btn-success ">Edit</a>
