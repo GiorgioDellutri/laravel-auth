@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Post;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use Illuminate\Validation\Rule;
 
@@ -15,6 +16,7 @@ class PostController extends Controller
         'title' => ['required', 'unique:posts'],
         'post_date' => 'required',
         'content' => 'required',
+        'image' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
     ];
 
     /**
@@ -46,11 +48,13 @@ class PostController extends Controller
      */
     public function store(Request $request)
     {
+
         $data = $request->validate($this->validationRules);
         $data['author'] = Auth::user()->name;
         $data['slug'] = Str::slug($data['title']);
         $newPost = new Post();
         $newPost->fill($data);
+        $newPost->image = Storage::put('uploads', $data['image']);
         $newPost->save();
 
         return redirect()->route('admin.post.index')->with('message', "Post  $newPost->title() has been created succesfully");
