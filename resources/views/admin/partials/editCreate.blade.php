@@ -11,7 +11,7 @@
 @endif
 
 
-<form action="{{ route($routeName, $post) }}" method="POST">
+<form action="{{ route($routeName, $post) }}" method="POST" enctype="multipart/form-data">
     @csrf
     @method($methods)
 
@@ -37,6 +37,12 @@
         <div class="mb-3">
             <label for="content" class="form-label">Contenuto del post</label>
             <textarea type="text" class="form-control" id="content" name="content">{{ old('content', $post->content) }} </textarea>
+        </div>
+
+        <div class="mb-3">
+            <label for="post_content" class="form-label">Post image</label>
+            <input type="file" class="form-control" id="post_image" name="image"
+                value="{{ old('image', $post->image) }}">
         </div>
 
         <div class="mb-3">
