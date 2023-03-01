@@ -7,6 +7,7 @@ use Faker\Generator as Faker;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Str as Str;
+use Illuminate\Support\Facades\Storage;
 
 class PostSeeder extends Seeder
 {
@@ -17,7 +18,7 @@ class PostSeeder extends Seeder
      */
     public function run(Faker $faker)
     {
-        for ($i = 0; $i < 100; $i++) {
+        for ($i = 0; $i < 200; $i++) {
             $newPost = new Post();
             $newPost->slug = Str::slug($newPost->title);
             "Ciao a tutti ";
@@ -25,6 +26,7 @@ class PostSeeder extends Seeder
             $newPost->author = $faker->name();
             $newPost->content = $faker->realTextBetween(600, 800);
             $newPost->post_date = $faker->date();
+            $newPost->image = $faker->unique()->imageUrl();
             $newPost->save();
         }
     }
